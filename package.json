@@ -2,8 +2,7 @@
   "name": "phocial",
   "version": "0.1.0",
   "engines": {
-    "node": "6.11.x",
-    "npm": "8.19.x"
+    "node": "18.12.x"
   },
   "private": true,
   "dependencies": {
