@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -20,7 +19,7 @@ const Post = (props) => {
         image,
         updated_at,
         postPage,
-        setPost,
+        setPosts,
     } = props;
 
     const currentUser = useCurrentUser();
@@ -28,16 +27,15 @@ const Post = (props) => {
 
     const handleLike = async () => {
         try {
-            const { data } = await axiosRes.post('/likes/', { post: id });
-            setPost(prevPost => ({
-                ...prevPost,
-                results: prevPost.results.map(post => {
+            const { data } = await axiosRes.post("/likes/", { post: id });
+            setPosts((prevPosts) => ({
+                ...prevPosts,
+                results: prevPosts.results.map((post) => {
                     return post.id === id
                         ? { ...post, likes_count: post.likes_count + 1, like_id: data.id }
                         : post;
-                })
-            }
-            ));
+                }),
+            }));
         } catch (err) {
             console.log(err);
         }
@@ -45,16 +43,15 @@ const Post = (props) => {
 
     const handleUnlike = async () => {
         try {
-            await axiosRes.delete(`/likes/${like_id}`);
-            setPost(prevPost => ({
-                ...prevPost,
-                results: prevPost.results.map(post => {
+            await axiosRes.delete(`/likes/${like_id}/`);
+            setPosts((prevPosts) => ({
+                ...prevPosts,
+                results: prevPosts.results.map((post) => {
                     return post.id === id
                         ? { ...post, likes_count: post.likes_count - 1, like_id: null }
                         : post;
-                })
-            }
-            ));
+                }),
+            }));
         } catch (err) {
             console.log(err);
         }
